@@ -28,23 +28,20 @@
 ;;; ---------- BEGIN STUDENT CODE ----------
 ;;; Your code will be pasted in starting here.
 
-;;; Students enrolled in CSCI 4525 should modify this function toreturn the
+;;; Students enrolled in CSCI 4525 should modify this function to return the
 ;;; correct value, rather than nil every time.  You should comment out the
 ;;; limited definition of this function below.
 (defun satisfiable (cnf)
+ (print "iter")
  (let ((simpl (simplify cnf)))
   (cond ((eq simpl t) simpl)
    ((eq simpl nil) simpl)
    ((mapcar
        (lambda (clause)
-         (setq simpl (satisfiable(set-variable simpl clause t)))
-         (cond ((eq simpl t) simpl)
-          ((eq simpl nil) simpl)
-          ((setq simpl (satisfiable(set-variable simpl clause nil)))
-           (cond ((eq simpl t) simpl)
-             ((eq simpl nil) simpl)))))
-     '(a b c))
-    simpl))))
+        (print clause)
+        (cond ((eq (satisfiable(set-variable simpl clause t)) t) t)
+              ((eq (satisfiable(set-variable simpl clause nil)) t) t)))
+     simpl) nil))))
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
@@ -88,10 +85,10 @@
 ;;; expected return value of #'satisfiable is t.
 (mapcar #'grade '((1 t t)
                   (2 nil nil)
+                  (6 (and a b) t)
                   (3 a t)
                   (4 (and t) t)
                   (5 (and nil) nil)
-                  (6 (and a b) t)
                   (7 (or t) t)
                   (8 (or nil) nil)
                   (9 (or a b) t)
