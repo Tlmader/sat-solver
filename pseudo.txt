@@ -1,0 +1,24 @@
+# Naïve SAT Solver
+
+# Begin with every variable’s value unassigned.
+# To find a model which satisfies a CNF expression:
+
+satisfiable(cnf) {
+  var simpl = simplify(cnf)
+  if (simpl is true or NIL)           # If every clause is true, return true.
+    return simpl
+  for (c in cnf) {                    # Choose an unassigned variable V.
+    if (c is true or NIL) {
+      continue
+    }
+    var expr = setvar(cnf, c, true)  # Set V=T. Find a model that satisfies.
+    simpl = satisfiable(expr)        # Recursive call
+    if (simpl is true or NIL)
+      return simpl
+    expr = setvar(cnf, c, false)     # Set V=F. Find a model that satisfies.
+    simpl = satisfiable(expr)        # Recursive call
+    if (simplified is true or NIL)
+      return simpl
+  }
+  return simpl                       # Return false.
+}
