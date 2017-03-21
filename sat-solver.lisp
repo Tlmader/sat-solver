@@ -35,7 +35,8 @@
 ;;; Finds a model which satisfies a CNF expression.
 (defun satisfiable (cnf)
  (print "iter")
- (let ((simpl (simplify cnf)))
+ (let ((simpl (simplify cnf))
+       (result nil))
   (cond ((eq simpl t) simpl) ; If every clause is true, return true.
    ((eq simpl nil) simpl)    ; If any clause is empty, return false.
    ((mapcar
@@ -43,11 +44,11 @@
         (cond ((eq var 'and) ())
          ((print var)
           ; Set V=T. Try to find a model that satisfies.
-          (cond ((eq (satisfiable(set-variable simpl var t)) t) t)
+          (cond ((eq (satisfiable(set-variable simpl var t)) t) (setq result t))
           ; Set V=F. Try to find a model that satisfies.
-                ((eq (satisfiable(set-variable simpl var nil)) t) t)))))
+                ((eq (satisfiable(set-variable simpl var nil)) t) (setq result t))))))
      simpl)
-    nil)))) ; Return false.
+    result)))) ; Return false.
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
