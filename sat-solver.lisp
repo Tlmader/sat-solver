@@ -31,17 +31,22 @@
 ;;; Students enrolled in CSCI 4525 should modify this function to return the
 ;;; correct value, rather than nil every time.  You should comment out the
 ;;; limited definition of this function below.
+
+;;; Finds a model which satisfies a CNF expression.
 (defun satisfiable (cnf)
  (print "iter")
  (let ((simpl (simplify cnf)))
-  (cond ((eq simpl t) simpl)
-   ((eq simpl nil) simpl)
+  (cond ((eq simpl t) simpl) ; If every clause is true, return true.
+   ((eq simpl nil) simpl)    ; If any clause is empty, return false.
    ((mapcar
-       (lambda (clause)
-        (print clause)
-        (cond ((eq (satisfiable(set-variable simpl clause t)) t) t)
-              ((eq (satisfiable(set-variable simpl clause nil)) t) t)))
-     simpl) nil))))
+       (lambda (var)
+        (print var)
+        ; Set V=T. Try to find a model that satisfies.
+        (cond ((eq (satisfiable(set-variable simpl var t)) t) t)
+        ; Set V=F. Try to find a model that satisfies.
+              ((eq (satisfiable(set-variable simpl var nil)) t) t)))
+     simpl)
+    nil)))) ; Return false.
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
