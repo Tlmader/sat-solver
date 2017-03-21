@@ -32,9 +32,26 @@
 ;;; correct value, rather than nil every time.  You should comment out the
 ;;; limited definition of this function below.
 (defun satisfiable (cnf)
-    (let ((simplified (simplify cnf)))
-        (cond ((eq simplified t) cnf)
-              ((eq simplified nil) cnf))))
+ (let ((simplified (simplify cnf)))
+  (cond ((eq simplified t) cnf)
+   ((eq simplified nil) cnf)
+   (mapcar
+     (lambda (clause)
+      (cond ((eq simplified t) cnf)
+       ((eq simplified nil) cnf)
+       (let ((pos (satisfiable(set-variable(simplified clause t)))
+              (cond ((eq pos t) pos)
+               ((eq pos nil) pos)
+               let ((neg (satisfiable(set-variable(simplified clause nil)))
+                      (cond ((eq neg t) neg)
+                       ((eq neg nil) neg)))))))))))))
+
+
+
+
+
+
+
 
 
 ;;; Feel free to define other functions here if you want.
@@ -66,7 +83,7 @@
     (mapcar
       (lambda (part)
         (set-variable part variable value))
-      cnf)))
+     cnf)))
 ;;; ---------- END STUDENT CODE ----------
 
 ;;; Test the #'satisfiable function on various different CNF expressions.
