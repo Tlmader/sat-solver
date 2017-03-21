@@ -39,20 +39,12 @@
      (lambda (clause)
       (cond ((eq simplified t) cnf)
        ((eq simplified nil) cnf)
-       (let ((pos (satisfiable(set-variable(simplified clause t)))
-              (cond ((eq pos t) pos)
-               ((eq pos nil) pos)
-               let ((neg (satisfiable(set-variable(simplified clause nil)))
-                      (cond ((eq neg t) neg)
-                       ((eq neg nil) neg)))))))))))))
-
-
-
-
-
-
-
-
+       (let ((pos (satisfiable(#'set-variable(simplified clause t)))))
+            (cond ((eq pos t) pos))
+            ((eq pos nil) pos)
+            let ((neg (satisfiable(#'set-variable(simplified clause nil)))))
+                (cond ((eq neg t) neg)
+                 ((eq neg nil) neg)))))))))
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
