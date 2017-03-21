@@ -32,19 +32,21 @@
 ;;; correct value, rather than nil every time.  You should comment out the
 ;;; limited definition of this function below.
 (defun satisfiable (cnf)
- (let ((simplified (simplify cnf)))
-  (cond ((eq simplified t) cnf)
-   ((eq simplified nil) cnf)
-   (mapcar
+ (let ((simpl (simplify cnf)))
+  (cond ((eq simpl t) cnf)
+   ((eq simpl nil) cnf)
+   ((mapcar
      (lambda (clause)
-      (cond ((eq simplified t) cnf)
-       ((eq simplified nil) cnf)
-       (let ((pos (satisfiable(#'set-variable(simplified clause t)))))
-            (cond ((eq pos t) pos))
-            ((eq pos nil) pos)
-            let ((neg (satisfiable(#'set-variable(simplified clause nil)))))
-                (cond ((eq neg t) neg)
-                 ((eq neg nil) neg)))))))))
+      (cond ((eq simpl t) simpl)
+       ((eq simpl nil) simpl)
+       ((setq simpl (satisfiable(set-variable(simpl clause t))))
+        (cond ((eq simpl t) simpl)
+         ((eq simpl nil) simpl)
+         ((setq simpl (satisfiable(set-variable(simpl clause nil))))
+          (cond ((eq simpl t) simpl)
+           ((eq simpl nil) simpl)))))))
+     simpl)
+    simpl))))
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
