@@ -40,11 +40,12 @@
    ((eq simpl nil) simpl)    ; If any clause is empty, return false.
    ((mapcar
        (lambda (var)
-        (print var)
-        ; Set V=T. Try to find a model that satisfies.
-        (cond ((eq (satisfiable(set-variable simpl var t)) t) t)
-        ; Set V=F. Try to find a model that satisfies.
-              ((eq (satisfiable(set-variable simpl var nil)) t) t)))
+        (cond ((eq var 'and) ())
+         ((print var)
+          ; Set V=T. Try to find a model that satisfies.
+          (cond ((eq (satisfiable(set-variable simpl var t)) t) t)
+          ; Set V=F. Try to find a model that satisfies.
+                ((eq (satisfiable(set-variable simpl var nil)) t) t)))))
      simpl)
     nil)))) ; Return false.
 
