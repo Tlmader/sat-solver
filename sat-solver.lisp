@@ -34,29 +34,20 @@
 
 ;;; Finds a model which satisfies a CNF expression.
 (defun satisfiable (cnf)
- (print "===============")
- (print "cnf:") (print cnf)
  (let ((simpl (simplify cnf))
        (result nil))
-  (cond ((eq simpl t) (print "eq simpl t") t) ; If every clause is true, return true.
-   ((eq simpl nil) (print "eq simpl nil") nil)    ; If any clause is empty, return false.
-   ((symbolp simpl) (print "symbolp simpl") t)
-   ((print "(remove-duplicates (flatten simpl)):") (print (remove 'and (remove 'or (remove 'not (remove-duplicates (flatten simpl))))))
-    (mapcar
-       (lambda (var)
-        (cond
-         ((eq var 'and) (print "eq var 'and"))
-         ((eq var 'or) (print "eq var 'or"))
-         ((eq var 'not) (print "eq var 'not"))
-         ((print "var:") (print var)
+  (cond ((eq simpl t) t) ; If every clause is true, return true.
+   ((eq simpl nil) nil)    ; If any clause is empty, return false.
+   ((symbolp simpl) t)
+   ((mapcar (lambda (var)
           ; Set V=T. Try to find a model that satisfies.
           (cond ((eq (satisfiable(set-variable simpl var t)) t)
-                 (print "found!") (setq result t))
+                 (setq result t))
           ; Set V=F. Try to find a model that satisfies.
                 ((eq (satisfiable(set-variable simpl var nil)) t)
-                 (print "found!") (setq result t))))))
+                 (setq result t))))
      (remove 'and (remove 'or (remove 'not (remove-duplicates (flatten simpl))))))
-    (print "return false") result)))) ; Return false.
+    result)))) ; Return false.
 
 ;;; Feel free to define other functions here if you want.
 ;;; Simplifies a CNF formula
