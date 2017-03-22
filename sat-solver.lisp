@@ -41,10 +41,10 @@
   (cond ((eq simpl t) (print "eq simpl t") t) ; If every clause is true, return true.
    ((eq simpl nil) (print "eq simpl nil") nil)    ; If any clause is empty, return false.
    ((symbolp simpl) (print "symbolp simpl") t)
-   ((print "simpl:") (print simpl)
+   ((print "(remove-duplicates (flatten simpl)):") (print (remove 'and (remove 'or (remove 'not (remove-duplicates (flatten simpl))))))
     (mapcar
        (lambda (var)
-        (cond ((listp var) (satisfiable var))
+        (cond
          ((eq var 'and) (print "eq var 'and"))
          ((eq var 'or) (print "eq var 'or"))
          ((eq var 'not) (print "eq var 'not"))
@@ -55,7 +55,7 @@
           ; Set V=F. Try to find a model that satisfies.
                 ((eq (satisfiable(set-variable simpl var nil)) t)
                  (print "found!") (setq result t))))))
-     simpl)
+     (remove 'and (remove 'or (remove 'not (remove-duplicates (flatten simpl))))))
     (print "return false") result)))) ; Return false.
 
 ;;; Feel free to define other functions here if you want.
@@ -88,6 +88,15 @@
       (lambda (part)
         (set-variable part variable value))
      cnf)))
+
+(defun flatten (orig-lst)
+   (if (eql orig-lst nil)
+       nil
+       (let ((elem (car orig-lst)) (resto-lst (cdr orig-lst)))
+           (if (listp elem)
+               (append (flatten elem) (flatten resto-lst))
+               (append (cons elem nil) (flatten resto-lst))))))
+
 ;;; ---------- END STUDENT CODE ----------
 
 ;;; Test the #'satisfiable function on various different CNF expressions.
@@ -110,5 +119,5 @@
                   (10 (and a (not a)) nil)
                   (11 (and a (or (not a) b)) t)
                   (12 (and a b (or (not a) (not b))) nil)
-                  (13 (and (or a b c) (not b) (or (not a) c) (or a d) (not c)) nil)
-                  (14 (and (not a) (not b) (not c) (not d) (not e) (not f) (not g) (not h) (not i) (not j) (or a b c d e f g h i j k)) t)))
+                  (13 (and (or a b c) (not b) (or (not a) c) (or a d) (not c)) nil)))
+                  ; (14 (and (not a) (not b) (not c) (not d) (not e) (not f) (not g) (not h) (not i) (not j) (or a b c d e f g h i j k)) t)))
