@@ -38,8 +38,9 @@
    ((mapcar
      (lambda (var)
        ; Set V=T. Try to find a model that satisfies.
-      (cond ((eq (satisfiable(set-variable simpl var t)) t)
-             (setq result t))
+      (cond ((eq result t) ())
+        ((eq (satisfiable(set-variable simpl var t)) t)
+         (setq result t))
        ; Set V=F. Try to find a model that satisfies.
        ((eq (satisfiable(set-variable simpl var nil)) t)
         (setq result t))))
