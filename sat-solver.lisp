@@ -28,10 +28,6 @@
 ;;; ---------- BEGIN STUDENT CODE ----------
 ;;; Your code will be pasted in starting here.
 
-;;; Students enrolled in CSCI 4525 should modify this function to return the
-;;; correct value, rather than nil every time.  You should comment out the
-;;; limited definition of this function below.
-
 ;;; Finds a model which satisfies a CNF expression.
 (defun satisfiable (cnf)
  (let ((simpl (simplify cnf))
@@ -81,7 +77,6 @@
     (set-variable part variable value))
    cnf)))
 
-;;; Flattens a list.
 (defun flatten (orig-lst)
  (if (eq orig-lst nil)
   nil
@@ -101,19 +96,17 @@
 ;;; The format of a test is: (number expression expected-value).
 ;;; For example, expression #6 is (and a b) and it is satisfiable, so the
 ;;; expected return value of #'satisfiable is t.
-; (mapcar #'grade '((1 t t)
-;                   (2 nil nil)
-;                   (3 a t)
-;                   (4 (and t) t)
-;                   (5 (and nil) nil)
-;                   (6 (and a b) t)
-;                   (7 (or t) t)
-;                   (8 (or nil) nil)
-;                   (9 (or a b) t)
-;                   (10 (and a (not a)) nil)
-;                   (11 (and a (or (not a) b)) t)
-;                   (12 (and a b (or (not a) (not b))) nil)
-;                   (13 (and (or a b c) (not b) (or (not a) c) (or a d) (not c)) nil)
-;                   (14 (and (not a) (not b) (not c) (not d) (not e) (not f) (not g) (not h) (not i) (not j) (or a b c d e f g h i j k)) t)))
-
-(mapcar #'grade '((14 (and (not a) (not b) (not c) (not d) (not e) (not f) (not g) (not h) (not i) (not j) (or a b c d e f g h i j k)) t)))
+(mapcar #'grade '((1 t t)
+                  (2 nil nil)
+                  (3 a t)
+                  (4 (and t) t)
+                  (5 (and nil) nil)
+                  (6 (and a b) t)
+                  (7 (or t) t)
+                  (8 (or nil) nil)
+                  (9 (or a b) t)
+                  (10 (and a (not a)) nil)
+                  (11 (and a (or (not a) b)) t)
+                  (12 (and a b (or (not a) (not b))) nil)
+                  (13 (and (or a b c) (not b) (or (not a) c) (or a d) (not c)) nil)
+                  (14 (and (not a) (not b) (not c) (not d) (not e) (not f) (not g) (not h) (not i) (not j) (or a b c d e f g h i j k)) t)))
